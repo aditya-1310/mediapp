@@ -36,6 +36,14 @@ function SearchPage() {
   setShowResults(true);
   setIsInputFocused(false);
 }
+function handleMedicineSelect(medicine: Medicine) {
+  sessionStorage.setItem("selectedMedicine", JSON.stringify(medicine));
+
+  navigate(`/medicine/${medicine.id}`, {
+    state: { medicine },
+  });
+}
+
 
   useEffect(() => {
     const trimmedQuery = query.trim();
@@ -157,12 +165,7 @@ function SearchPage() {
                     <button
                     key={medicine.id}
                     type="button"
-                    onMouseDown={() => {
-                            sessionStorage.setItem("selectedMedicine", JSON.stringify(medicine));
-                            navigate(`/medicine/${medicine.id}`, {
-                                state: { medicine },
-                            });
-                        }}
+                    onMouseDown={() => handleMedicineSelect(medicine)}
                     className=" cursor-pointer block w-full border-b border-slate-100 px-4 py-3 text-left last:border-b-0 hover:bg-slate-100"
                     >
                     <p className="text-sm font-medium text-slate-900">{brandName}</p>
@@ -212,44 +215,39 @@ function SearchPage() {
             const productType =
                 medicine.openfda?.product_type?.[0] || "Not available";
 
-            return (
-                <button
-                key={medicine.id}
-                type="button"
-                onClick={() => {
-                    sessionStorage.setItem("selectedMedicine", JSON.stringify(medicine));
+                 return (
+                    <div
+                        key={medicine.id}
+                        className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition hover:shadow-md"
+                    >
+                        <h2 className="text-lg font-semibold text-slate-900">
+                        {brandName}
+                        </h2>
 
-                    navigate(`/medicine/${medicine.id}`, {
-                        state: { medicine },
-                    });
-                    }}
+                        <div className="mt-3 space-y-2 text-sm text-slate-600">
+                        <p>
+                            <span className="font-medium text-slate-800">Generic:</span>{" "}
+                            {genericName}
+                        </p>
+                        <p>
+                            <span className="font-medium text-slate-800">Manufacturer:</span>{" "}
+                            {manufacturer}
+                        </p>
+                        <p>
+                            <span className="font-medium text-slate-800">Product Type:</span>{" "}
+                            {productType}
+                        </p>
+                        </div>
 
-                className="rounded-xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-200 transition hover:shadow-md"
-                >
-                <h2 className="text-lg font-semibold text-slate-900">
-                    {brandName}
-                </h2>
-
-                <div className="mt-3 space-y-2 text-sm text-slate-600">
-                    <p>
-                    <span className="font-medium text-slate-800">Generic:</span>{" "}
-                    {genericName}
-                    </p>
-                    <p>
-                    <span className="font-medium text-slate-800">
-                        Manufacturer:
-                    </span>{" "}
-                    {manufacturer}
-                    </p>
-                    <p>
-                    <span className="font-medium text-slate-800">
-                        Product Type:
-                    </span>{" "}
-                    {productType}
-                    </p>
-                </div>
-                </button>
-            );
+                        <button
+                        type="button"
+                        onClick={() => handleMedicineSelect(medicine)}
+                        className="cursor-pointer mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+                        >
+                        View details
+                        </button>
+                    </div>
+                    );
             })}
         </div>
         )}
