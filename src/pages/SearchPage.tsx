@@ -28,6 +28,8 @@ function SearchPage() {
   const navigate = useNavigate();
   const [showResults, setShowResults] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const isLandingView = !showResults;
+  const popularSearches = ["Advil", "Ibuprofen", "Aspirin", "Paracetamol"];
 
 
   const cacheRef = useRef<Record<string, Medicine[]>>({});
@@ -120,12 +122,21 @@ function handleMedicineSelect(medicine: Medicine) {
 
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-10">
-      <div className="mx-auto max-w-5xl">
-        <h1 className="text-3xl font-bold text-slate-900">Medicine Search</h1>
-        <p className="mt-2 text-slate-600">Search medicines by brand name</p>
+   <div className="min-h-screen bg-slate-100 px-4 py-10 flex">
+  <div className="mx-auto max-w-6xl">
+    <div className="mx-auto max-w-3xl text-center">
+      <p className="text-sm font-medium text-blue-600">openFDA medicine lookup</p>
+      <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-900">
+        Search Medicines
+      </h1>
+      <p className="mt-3 text-base text-slate-600">
+        Find medicine information by brand name and view detailed label data in a
+        clean format.
+      </p>
+    </div>
 
-       <div className="mt-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+
+       <div className="mx-auto mt-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
         <div className="relative">
             <div className="flex gap-3">
             <input
