@@ -3,6 +3,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 type Medicine = {
   id: string;
   set_id?: string;
+  effective_time?: string;
+  version?: string;
   openfda?: {
     brand_name?: string[];
     generic_name?: string[];
@@ -10,8 +12,11 @@ type Medicine = {
     product_type?: string[];
     route?: string[];
     substance_name?: string[];
+    application_number?: string[];
+    product_ndc?: string[];
   };
   active_ingredient?: string[];
+  inactive_ingredient?: string[];
   purpose?: string[];
   indications_and_usage?: string[];
   warnings?: string[];
@@ -24,6 +29,7 @@ type Medicine = {
   pregnancy_or_breast_feeding?: string[];
   keep_out_of_reach_of_children?: string[];
 };
+
 
 function getFirst(items?: string[]) {
   return items?.find((item) => item.trim())?.trim() || "Not available";
@@ -50,6 +56,24 @@ function getBulletItems(items?: string[]) {
 
   return [];
 }
+
+function formatEffectiveDate(value?: string) {
+  if (!value || value.length !== 8) return "Not available";
+
+  const year = value.slice(0, 4);
+  const month = value.slice(4, 6);
+  const day = value.slice(6, 8);
+
+  const date = new Date(`${year}-${month}-${day}`);
+  if (Number.isNaN(date.getTime())) return value;
+
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
@@ -157,6 +181,13 @@ function getActiveIngredientItems(medicine: Medicine) {
 }
 
 
+    const inactiveIngredients = getFirst(medicine.inactive_ingredient);
+    const effectiveDate = formatEffectiveDate(medicine.effective_time);
+    const labelVersion = medicine.version || "Not available";
+    const applicationNumber = getJoined(medicine.openfda?.application_number);
+    const ndcCode = getJoined(medicine.openfda?.product_ndc);
+    const splSetId = medicine.set_id || "Not available";
+    const splId = medicine.id || "Not available";
 
   const brandName = getJoined(medicine.openfda?.brand_name);
   const genericName = getJoined(medicine.openfda?.generic_name);
@@ -331,6 +362,35 @@ function getActiveIngredientItems(medicine: Medicine) {
                 })}
             </div>
             </SectionCard>
+         
+         <SectionCard title="Other ingredients (Inactive)">
+            <details className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+                <summary className="cursor-pointer font-medium text-slate-900">
+                View inactive ingredients
+                </summary>
+
+                <p className="mt-3 text-sm leading-6 text-slate-700">
+                {inactiveIngredients}
+                </p>
+            </details>
+            </SectionCard>
+
+            <SectionCard title="Label Information & Source Metadata">
+            <p className="text-sm leading-6 text-slate-600">
+                This section contains official label and source metadata from the openFDA
+                drug label response.
+            </p>
+
+            <div className="mt-4">
+                <InfoRow label="Product type" value={productType} />
+                <InfoRow label="Label effective date" value={effectiveDate} />
+                <InfoRow label="Label version" value={labelVersion} />
+                <InfoRow label="Application number" value={applicationNumber} />
+                <InfoRow label="NDC code" value={ndcCode} />
+                <InfoRow label="SPL Set ID" value={splSetId} />
+                <InfoRow label="SPL ID" value={splId} />
+            </div>
+        </SectionCard>
 
         </div>
       </div>

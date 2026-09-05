@@ -28,8 +28,6 @@ function SearchPage() {
   const navigate = useNavigate();
   const [showResults, setShowResults] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const isLandingView = !showResults;
-  const popularSearches = ["Advil", "Ibuprofen", "Aspirin", "Paracetamol"];
 
 
   const cacheRef = useRef<Record<string, Medicine[]>>({});
