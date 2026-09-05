@@ -1,75 +1,44 @@
-# React + TypeScript + Vite
+# MediApp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A medicine search application built with React, TypeScript, and Vite using the openFDA Drug Label API.
 
-Currently, two official plugins are available:
+Users can search medicines by brand name, get suggestion dropdown results, view full search results, and open a detailed medicine page with structured label information.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Search medicines by brand name
+- Debounced API calls for better performance
+- Suggestion dropdown while typing
+- Full search results on search action
+- Medicine detail page
+- Structured medicine information sections:
+  - At a glance
+  - Active ingredients
+  - Uses and indications
+  - Important safety information
+  - Other ingredients
+  - Label information and source metadata
+- Loading state
+- Error handling
+- No results state
+- Simple in-memory caching for repeated queries
+- Request cancellation to avoid stale API responses
+- Session storage fallback for detail page refresh
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- Vite
+- React Router DOM
+- Tailwind CSS
+- openFDA API
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## API Used
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+openFDA Drug Label API
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Example:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+```bash
+https://api.fda.gov/drug/label.json?search=openfda.brand_name:"advil"&limit=20
