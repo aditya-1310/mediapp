@@ -234,7 +234,7 @@ function getActiveIngredientItems(medicine: Medicine) {
           Back
         </button>
 
-        <div className="mt-6 rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+        <div className="mt-6 mb-3 rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
           <h1 className="text-3xl font-bold text-slate-900">{brandName}</h1>
           <p className="mt-2 text-slate-600">{genericName}</p>
 
@@ -253,13 +253,6 @@ function getActiveIngredientItems(medicine: Medicine) {
           </p>
         </div>
 
-        <div className="mt-6 mb-2 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-          <p className="font-medium">Source: US FDA drug label</p>
-          <p className="mt-1">
-            This data is coming from the openFDA API. It should be displayed for
-            information only and not used as medical advice.
-          </p>
-        </div>
 
         <SectionCard title="At a glance">
           <InfoRow label="Generic name" value={genericName} />
